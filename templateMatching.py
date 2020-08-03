@@ -2,7 +2,7 @@ import cv2 as cv
 
 cap = cv.VideoCapture('Taiwan.mp4')
 
-r = None
+roi = None
 while(cap.isOpened()): 
       
   # Capture frame-by-frame 
@@ -10,11 +10,19 @@ while(cap.isOpened()):
   if ret == True:
     
     frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    if r ==None:
-        r = cv.selectROI(frame)
+    if roi ==None:
+        roi = cv.selectROI(frame)
+    
+    startPoint = (roi[0], roi[1])
+    endPoint = (roi[0]+roi[2], roi[1]+roi[3])
+    print("roi: ", roi)
+    cv.rectangle(frame,startPoint,endPoint,(0,255,0), 2)
     
     # Display the resulting frame 
     cv.imshow('Frame', frame)
+    
+
+    
 
    
     # Press Q on keyboard to  exit 
