@@ -27,10 +27,19 @@ while(cap.isOpened()):
 
     startPoint = (roi[0], roi[1])
     endPoint = (roi[0]+roi[2], roi[1]+roi[3])
-    cv.rectangle(frame,startPoint,endPoint,(0,255,0), 2)
-    
+    #cv.rectangle(frame,startPoint,endPoint,(0,255,0), 2)
+    method = 'cv.TM_CCOEFF'
+    res = cv.matchTemplate(frame,template, method=4)
+    min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
+    top_left = max_loc
+    w, h = template.shape[::-1]
+    bottom_right = (top_left[0] + w, top_left[1] + h)
+
+    cv.rectangle(frame,top_left, bottom_right, 255, 2)
+
+
     # Display the resulting frame 
-    cv.imshow('Frame', frame)
+    cv.imshow('frame', frame)
     
 
     
